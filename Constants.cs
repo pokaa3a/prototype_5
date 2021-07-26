@@ -15,4 +15,11 @@ public class Constants
     // Dump
     public const float dumpSpeed = 1f;
 
+    public const float oneLevelHeight = 1f;
+
+    // === Boss ===
+    public const float verticalJumpDistance = 1.5f;
+    public const float horizontalJumpDistance = 0.7f;
+    public const float bossAttackRange = 1.3f;
+
 }

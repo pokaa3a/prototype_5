@@ -14,6 +14,12 @@ public enum BossAnimation
 
 public partial class BossComponent : MonoBehaviour
 {
+    public Transform playerTransform;
+    protected Vector2 playerPosition
+    {
+        get => new Vector2(playerTransform.position.x, playerTransform.position.y);
+    }
+    
     // Unity components
     Animator bossAnimator;
     string currentAnimation;
@@ -33,6 +39,14 @@ public partial class BossComponent : MonoBehaviour
     {
         get => transform.position;
         set => transform.position = value;
+    }
+
+    // Grounded
+    private bool _grounded = false;
+    public bool grounded
+    {
+        get => _grounded;
+        private set => _grounded = value;
     }
 
     // Velocity
@@ -113,9 +127,6 @@ public partial class BossComponent : MonoBehaviour
             state = nextState;
             state.Enter();
         }
-
-        Color color = new Color(0f, 0f, 1.0f);
-        Debug.DrawLine(Vector3.zero, new Vector3(0, 5, 0), color);
     }
 
     //----------------------------------------------------------------------------------------------

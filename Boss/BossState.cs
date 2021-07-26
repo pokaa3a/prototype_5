@@ -92,6 +92,13 @@ public partial class BossComponent
         {
             UpdateVelocity();
 
+            Vector2 offset = new Vector2(0f, boss.bodySize.y * boss.scale.y / 2f);
+            Color color = new Color(0f, 1f, 0f);
+            Debug.DrawLine(
+                boss.position - offset - new Vector2(boss.bodySize.x * boss.scale.x * 0.35f, 0f),
+                boss.position - offset + new Vector2(boss.bodySize.x * boss.scale.x * 0.35f, 0f),
+                color);
+
             BossState stateUpdatedByCollision = MaybeUpdateByCollision();
             if (stateUpdatedByCollision != null)
             {
@@ -116,6 +123,8 @@ public partial class BossComponent
                 return stateUpdatedByPlayer;
             }
             
+            UpdatePosition();
+
             return null;
         }
 
@@ -154,6 +163,31 @@ public partial class BossComponent
         protected void UpdatePosition()
         {
             boss.position += boss.velocity.normalized * boss.movingStep;
+        }
+
+        // -----------------------------------------------------------------------------------------
+        protected void CheckGrounded()
+        {
+            Vector2 offset = new Vector2(0f, boss.bodySize.y * boss.scale.y / 2f);
+            RaycastHit2D[] groundColliders = Physics2D.BoxCastAll(
+                boss.position - offset, // origin
+                new Vector2(boss.bodySize.x * boss.scale.x * 0.7f, 0.01f),
+                0f,
+                Vector2.down,
+                boss.movingStep
+            );
+
+            foreach (RaycastHit2D hit in groundColliders)
+            {
+                if (hit.transform.gameObject.tag == "blocker")
+                {
+                    boss.movingStep = Mathf.Min(boss.movingStep, hit.distance);
+                    boss.grounded = true;
+                    return;
+                }
+            }
+            boss.grounded = false;
+
         }
     }
 }
