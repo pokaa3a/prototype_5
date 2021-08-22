@@ -7,6 +7,8 @@ public class MapHandler : MonoBehaviour
 {
     GameObject backgroundPrefab;
     GameObject backgroundObject;
+    private GameObject wallPrefab;
+    private GameObject[] walls = new GameObject[2];
 
     public Transform playerTransform;
     public Transform cameraTransform;
@@ -14,6 +16,9 @@ public class MapHandler : MonoBehaviour
     public MapSegment oldMapSegment;
     public MapSegment curMapSegment;
     public MapSegment nextMapSegment;
+
+    public Camera mainCamera;
+    private float screenWidth = 0f;
 
     private float lowerBoundary;
 
@@ -30,6 +35,22 @@ public class MapHandler : MonoBehaviour
         curMapSegment = new MapSegment(-MapSegment.height);
         nextMapSegment = new MapSegment(-2f * MapSegment.height);
         lowerBoundary = MapSegment.height * -2f;
+
+        // Load wall object
+        wallPrefab = Resources.Load<GameObject>("Prefabs/wall");
+        Assert.IsNotNull(wallPrefab);
+
+        screenWidth = Constants.cameraSize * mainCamera.aspect;
+        // left wall
+        walls[0] = UnityEngine.Object.Instantiate(
+            wallPrefab,
+            new Vector3(-screenWidth, 0f, 1f),
+            Quaternion.identity);
+        // right wall
+        walls[1] = UnityEngine.Object.Instantiate(
+            wallPrefab,
+            new Vector3(screenWidth, 0f, 1f),
+            Quaternion.identity);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -52,6 +73,13 @@ public class MapHandler : MonoBehaviour
 
             // Update lowerBoundary
             lowerBoundary -= MapSegment.height;
+        }
+
+        foreach (GameObject wall in walls)
+        {
+            wall.transform.position = new Vector2(
+                wall.transform.position.x,
+                mainCamera.transform.position.y);
         }
     }
 }

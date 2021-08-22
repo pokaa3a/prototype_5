@@ -40,14 +40,15 @@ public class InputHandler : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     void Awake()
     {
-        initJoystickPosition = handleObject.transform.position;
-        initNorthEdgePosition = northEdge.transform.position;
+        // initJoystickPosition = handleObject.transform.position;
+        // initNorthEdgePosition = northEdge.transform.position;
     }
 
     //----------------------------------------------------------------------------------------------
     void Start() 
     {
-
+        initJoystickPosition = handleObject.transform.position;
+        initNorthEdgePosition = northEdge.transform.position;
     }
 
     //------------------------------------------------------------------------------------------

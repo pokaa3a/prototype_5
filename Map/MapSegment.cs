@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// A MapSegment is a set of levels. Each MapSegment has the same local patern.
+
 public class MapSegment
 {
     private const float offsetX = 2f;

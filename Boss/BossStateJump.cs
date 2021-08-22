@@ -56,8 +56,6 @@ public partial class BossComponent
                 distance = Constants.verticalJumpDistance;
             }
 
-            Debug.Log($"Distance: {distance}");
-
             // Set Animation
             boss.PlayAnimation(BossAnimation.Jump);
         }
